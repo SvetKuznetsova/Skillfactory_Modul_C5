@@ -1,0 +1,36 @@
+<h1>Modul C5 Task 4</h1>
+
+<form>
+    <label for="input">Ввод числа:</label><br>
+    <input id="input1" type="text" name="input" placeholder="Введите число от 100 до 300" required></input>
+    <input id="input2" type="text" name="input" placeholder="Введите число от 100 до 300" required></input>
+    <button id="btn" type="submit">Отправка запроса</button>
+   </form>
+   <div class='result'>Результат запроса</div>
+
+   <script>
+       
+   const btnNode = document.querySelector("button");
+   const resultNode = document.querySelector('.result');
+
+   function useRequest(value1, value2) {
+    return fetch(`https://picsum.photos/${value1}/${value2}`)
+        .then(response => response.blob())
+        .then(blob => URL.createObjectURL(blob))
+        .catch(() => {
+            console.log('error')
+        })
+}
+       
+   btnNode.addEventListener('click', async () => {
+             const value1 = document.querySelector('#input1').value;
+             const value2 = document.querySelector('#input2').value;
+             if (isNaN(value1) || value1 < 100 || value1 > 300 || isNaN(value2) || value2 < 100 || value2 > 300) {
+           resultNode.innerHTML = "Одно из чисел вне диапазона от 100 до 300";
+              } else {
+                const url = await useRequest(value1, value2)
+        resultNode.innerHTML = `<img src='${url}' alt='image'>`
+         }
+        });
+        
+   </script>
